@@ -1,4 +1,4 @@
-# SunrsieKingdomWorkshop
+# SunriseKingdomWorkshop
 
 This is the repo for holding the code for the sunrise kingdom CMS Crosslab Workshop.
 
