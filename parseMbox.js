@@ -6,16 +6,30 @@
 	We're going to use the node-mbox plugin for parsing.
 */
 
-const Mbox = require('node-mbox');
+const Mbox = require('node-mbox', { streaming : true });
 const simpleParser = require('mailparser').simpleParser;
 const fs = require('fs-extra');
 
 const mbox = new Mbox('data/Sent-001.mbox');
 
-mbox.on('message', function(msg) {
+mbox.on('message', function(stream) {
 	// 'msg' is a 'Buffer' instance
-	simpleParser(msg, (err, parsed) => {
-		console.log(parsed);
+	simpleParser(stream, (err, parsed) => {
+		if(err)
+			throw err;
+		console.log(parsed.date);
+		console.log(parsed.attachments.length);
+		for(var i = 0; i < parsed.attachments.length; i++) {
+			console.log(parsed.attachments[i].contentType);
+			console.log(parsed.attachments[i].filename);
+			if(parsed.attachments[i].contentType === "image/jpeg") {
+				fs.writeFile(__dirname + "/data/Images/" + i + ".jpg", parsed.attachments[i].content, function(err) {
+					if(err)
+						throw err;
+					console.log("Done writing: test" + parsed.date.toString());
+				});
+			}
+		}
 	});
 	// console.log('got a message', msg.toString());
 });
