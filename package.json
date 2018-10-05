@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "fs-extra": "^7.0.0",
+    "mailparser": "^2.3.4",
     "node-mbox": "^1.0.0",
     "path": "^0.12.7"
   }
