@@ -38,7 +38,7 @@ fs.mkdirp("data/Large", function(err, made) {
 		console.log(made);
 });
 
-var Folder2018 = "data/2017";
+var Folder2018 = "data/2018";
 
 function fromDir(startPath, filter) {
 	if(!fs.existsSync(startPath)) {
@@ -60,7 +60,7 @@ function fromDir(startPath, filter) {
 				var newPath = createNewFilePath(p);
 				if(newPath !== null) {
 					fs.ensureFileSync(newPath);
-					fs.moveSync(p[5], newPath, { overwrite: true });
+					fs.moveSync(p[5], newPath, { overwrite: false });
 				}
 			}
 		}
