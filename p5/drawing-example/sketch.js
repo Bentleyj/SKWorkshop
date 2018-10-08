@@ -1,6 +1,5 @@
 var img;
-var play;
-var imgName;
+var currentImageName;
 
 function setup() {
   // put setup code here
@@ -8,11 +7,10 @@ function setup() {
   var imgMonth = 6;
   var imgDate = 14;
   var imgIndex = 0;
-  imgName = 'assets/SKWorkshopImages/' + createImageString(imgYear, imgMonth, imgDate, imgIndex);
+  currentImageName = 'assets/SKWorkshopImages/' + createImageString(imgYear, imgMonth, imgDate, imgIndex);
 
-  play = false;
-  img = loadImage(imgName);
-  loadNewImage(imgName);
+  img = loadImage(currentImageName);
+  loadNewImage(currentImageName);
 
   createCanvas(1920, 1080);
 }
@@ -36,6 +34,8 @@ function draw() {
   var s = "RGB(" + c[0] + ", " + c[1] + ", " + c[2] + ")"
   fill(0);
   text(s, 0, height + 20 + 50);
+
+  text(currentImageName.substr(0, 9) , 0, height + 20 + 50 + 20);
 }
 
 function loadNewImage(imgName) {
@@ -73,8 +73,8 @@ function getNextImgName(imgName) {
     imgDate.month = 6;
     imgDate.year = 2017;
   }
-  imgName = createImageString(imgDate.year, imgDate.month, imgDate.date, imgDate.index);
-  return imgName;
+  currentImageName = createImageString(imgDate.year, imgDate.month, imgDate.date, imgDate.index);
+  return currentImageName;
 }
 
 function createImageString(year, month, date, index) {
