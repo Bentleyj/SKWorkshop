@@ -11,8 +11,6 @@ function setup() {
   imgName = 'assets/SKWorkshopImages/' + createImageString(imgYear, imgMonth, imgDate, imgIndex);
 
   play = false;
-  console.log(imgName);
-  console.log(getImageDateFromString(imgName));
   img = loadImage(imgName);
   loadNewImage(imgName);
 
@@ -43,10 +41,8 @@ function draw() {
 function loadNewImage(imgName) {
 	loadImage(imgName, function(newImg) {
   		img = newImg;
-      // if(play) {
-        imgName = getNextImgName(imgName);
-        loadNewImage('assets/SKWorkshopImages/' + imgName);
-      // }   
+      imgName = getNextImgName(imgName);
+      loadNewImage('assets/SKWorkshopImages/' + imgName);
     }, function(err) {
       imgName = getNextImgName(imgName);
       loadNewImage('assets/SKWorkshopImages/' + imgName);
@@ -74,7 +70,7 @@ function getNextImgName(imgName) {
   if(imgDate.year > 2018) {
     imgDate.index = 0;
     imgDate.date = 0;
-    imgDate.month = 1;
+    imgDate.month = 6;
     imgDate.year = 2017;
   }
   imgName = createImageString(imgDate.year, imgDate.month, imgDate.date, imgDate.index);
@@ -97,13 +93,5 @@ function getImageDateFromString(imgName) {
 }
  
 function keyPressed() {
-  console.log(keyCode);
-  if(keyCode === 32) {
-    play = true;
-  }
-  if(keyCode === RIGHT_ARROW && !play) {
-    imgName = getNextImgName('assets/SKWorkshopImages/' + imgName);
-    loadNewImage(imgName);
-  }
   return false;
 }
