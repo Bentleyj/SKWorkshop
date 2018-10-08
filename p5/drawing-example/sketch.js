@@ -2,15 +2,14 @@ var img;
 
 function setup() {
   // put setup code here
-  var imgYear = 2018;
-  var imgMonth = 5;
-  var imgDate = 22;
+  var imgYear = 2017;
+  var imgMonth = 6;
+  var imgDate = 14;
   var imgIndex = 0;
-  var imgName = 'assets/' + createImageString(imgYear, imgMonth, imgDate, imgIndex);
+  var imgName = 'assets/SKWorkshopImages/' + createImageString(imgYear, imgMonth, imgDate, imgIndex);
   console.log(imgName);
   console.log(getImageDateFromString(imgName));
   img = loadImage(imgName);
-  // imgIndex = 0;
   loadNextImage(imgName);
 
   createCanvas(1920, 1080);
@@ -21,7 +20,9 @@ function draw() {
   clear();
 	
   var scale = 3840 / windowWidth;
-  image(img, 0, 0, windowWidth, 600 / scale);
+  var width = windowWidth;
+  var height = 600 / scale;
+  image(img, 0, 0, width, height);
 }
 
 function loadNextImage(imgName) {
@@ -30,33 +31,33 @@ function loadNextImage(imgName) {
       var imgDate = getImageDateFromString(imgName);
       imgDate.index++;
       imgName = createImageString(imgDate.year, imgDate.month, imgDate.date, imgDate.index);
-  		loadNextImage('assets/' + imgName);
+  		loadNextImage('assets/SKWorkshopImages/' + imgName);
     }, function(err) {
       var imgDate = getImageDateFromString(imgName);
-      imgDate.index = 0;
-      // if(imgDate.index > 120) {
-      //   imgDate.index = 0;
-      //   imgDate.date++;
-      // }
-      // if(imgDate.date > 31) {
-      //   imgDate.index = 0;
-      //   imgDate.date = 0;
-      //   imgDate.month++;
-      // }
-      // if(imgDate.month > 11) {
-      //   imgDate.index = 0;
-      //   imgDate.date = 0;
-      //   imgDate.month = 1;
-      //   imgDate.year++;
-      // }
-      // if(imgDate.year > 2018) {
-      //   imgDate.index = 0;
-      //   imgDate.date = 0;
-      //   imgDate.month = 1;
-      //   imgDate.year = 2017;
-      // }
+      imgDate.index++;
+      if(imgDate.index > 119) {
+        imgDate.index = 0;
+        imgDate.date++;
+      }
+      if(imgDate.date > 31) {
+        imgDate.index = 0;
+        imgDate.date = 0;
+        imgDate.month++;
+      }
+      if(imgDate.month > 11) {
+        imgDate.index = 0;
+        imgDate.date = 0;
+        imgDate.month = 1;
+        imgDate.year++;
+      }
+      if(imgDate.year > 2018) {
+        imgDate.index = 0;
+        imgDate.date = 0;
+        imgDate.month = 1;
+        imgDate.year = 2017;
+      }
       imgName = createImageString(imgDate.year, imgDate.month, imgDate.date, imgDate.index);
-      loadNextImage('assets/' + imgName);
+      loadNextImage('assets/SKWorkshopImages/' + imgName);
   });
 }
 
@@ -67,7 +68,7 @@ function createImageString(year, month, date, index) {
 function getImageDateFromString(imgName) {
   var imgNameNoExtension = imgName.split(".");
   var imgNameNoPath = imgNameNoExtension[0].split("/");
-  var imgDate = imgNameNoPath[1].split('-');
+  var imgDate = imgNameNoPath[imgNameNoPath.length-1].split('-');
   var y = parseInt(imgDate[0]);
   var m = parseInt(imgDate[1]);
   var d = parseInt(imgDate[2]);
