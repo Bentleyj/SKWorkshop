@@ -1,5 +1,6 @@
 var img;
 var currentImageName;
+var ImagesFilePath;
 
 function setup() {
   // put setup code here
@@ -7,7 +8,8 @@ function setup() {
   var imgMonth = 6;
   var imgDate = 14;
   var imgIndex = 0;
-  currentImageName = 'assets/SKWorkshopImages/' + createImageString(imgYear, imgMonth, imgDate, imgIndex);
+  ImagesFilePath = '../../assets/SKWorkshopImages/';
+  currentImageName = ImagesFilePath + createImageString(imgYear, imgMonth, imgDate, imgIndex);
 
   img = loadImage(currentImageName);
   loadNewImage(currentImageName);
@@ -42,10 +44,10 @@ function loadNewImage(imgName) {
 	loadImage(imgName, function(newImg) {
   		img = newImg;
       imgName = getNextImgName(imgName);
-      loadNewImage('assets/SKWorkshopImages/' + imgName);
+      loadNewImage(ImagesFilePath + imgName);
     }, function(err) {
       imgName = getNextImgName(imgName);
-      loadNewImage('assets/SKWorkshopImages/' + imgName);
+      loadNewImage(ImagesFilePath + imgName);
   });
 }
 
@@ -82,9 +84,9 @@ function createImageString(year, month, date, index) {
 }
 
 function getImageDateFromString(imgName) {
-  var imgNameNoExtension = imgName.split(".");
-  var imgNameNoPath = imgNameNoExtension[0].split("/");
-  var imgDate = imgNameNoPath[imgNameNoPath.length-1].split('-');
+  var imgNameNoPath = imgName.split("/");
+  var imgNameNoExtension = imgNameNoPath[imgNameNoPath.length-1].split(".");
+  var imgDate = imgNameNoExtension[imgNameNoExtension.length-2].split('-');
   var y = parseInt(imgDate[0]);
   var m = parseInt(imgDate[1]);
   var d = parseInt(imgDate[2]);

@@ -1,4 +1,4 @@
-var img;
+var img, diffImg;
 var currentImageName;
 var ImagesFilePath;
 
@@ -11,6 +11,8 @@ function setup() {
   ImagesFilePath = '../../assets/SKWorkshopImages/';
   currentImageName = ImagesFilePath + createImageString(imgYear, imgMonth, imgDate, imgIndex);
 
+  diffImg = loadImage(currentImageName);
+  diffImg.loadPixels();
   img = loadImage(currentImageName);
   loadNewImage(currentImageName);
 
@@ -38,11 +40,15 @@ function draw() {
   text(s, 0, height + 20 + 50);
 
   text(currentImageName.substr(0, 9) , 0, height + 20 + 50 + 20);
+
+  image(diffImg, 0, height + 20 + 50 + 10, width, height);
 }
 
 function loadNewImage(imgName) {
 	loadImage(imgName, function(newImg) {
-  		img = newImg;
+      getImageDifference(img, newImg);
+      diffImg = img;
+      img = newImg;
       imgName = getNextImgName(imgName);
       loadNewImage(ImagesFilePath + imgName);
     }, function(err) {
@@ -92,6 +98,46 @@ function getImageDateFromString(imgName) {
   var d = parseInt(imgDate[2]);
   var i = parseInt(imgDate[3]);
   return {year: y, month: m, date: d, index: i};
+}
+
+function getImageDifference(img1, img2) {
+  img1.loadPixels();
+  img2.loadPixels();
+  var pixels = img1.pixels;
+  var previousPixels = img2.pixels;
+  var thresholdAmount = 15 * 3;
+  var h = img1.height;
+  var w = img1.width;
+  var i = 0;
+  for (var y = 0; y < h; y++) {
+    for (var x = 0; x < w; x++) {
+      // calculate the differences
+      var rdiff = Math.abs(pixels[i + 0] - previousPixels[i + 0]);
+      var gdiff = Math.abs(pixels[i + 1] - previousPixels[i + 1]);
+      var bdiff = Math.abs(pixels[i + 2] - previousPixels[i + 2]);
+      var diffs = rdiff + gdiff + bdiff;
+      var outputr = 0;
+      var outputg = 0;
+      var outputb = 0;
+
+      if (diffs > thresholdAmount) {
+        outputr = pixels[i + 0];
+        outputg = pixels[i + 1];
+        outputb = pixels[i + 2];
+
+      }
+      pixels[i++] = outputr;
+      pixels[i++] = outputg;
+      pixels[i++] = outputb;
+      // also try this:
+      // pixels[i++] = rdiff;
+      // pixels[i++] = gdiff;
+      // pixels[i++] = bdiff;
+      i++; // skip alpha
+    }
+  }
+  img1.pixels = pixels;
+  img1.updatePixels();
 }
  
 function keyPressed() {
