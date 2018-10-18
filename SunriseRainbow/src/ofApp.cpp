@@ -40,8 +40,13 @@ void ofApp::setup(){
     std::sort(imagePaths.begin(), imagePaths.end(), compareString);
     
     img.load(imagePaths[0]);
-    
+    vector<ofColor> cols;
     cols = f.getColorsFromImage(img);
+    colorDay* d = new colorDay();
+    d->box = &box;
+    d->cols.push_back(cols);
+    d->imgPaths.push_back(imagePaths[imageIndex]);
+    colorDays.push_back(d);
     
     string settingsPath = "settings/settings.xml";
     gui.setup("Settings", settingsPath);
@@ -50,7 +55,13 @@ void ofApp::setup(){
     
     showGui = false;
     
+    box.set(10);
+    box.setPosition(0, 0, 0);
+    cam.lookAt(ofVec3f(0, 0, 0));
+    
     buffer.allocate(ofGetWidth(), ofGetHeight());
+    
+    ofEnableDepthTest();
 }
 
 //--------------------------------------------------------------
@@ -58,8 +69,22 @@ void ofApp::update(){
     imageIndex++;
     imageIndex %= imagePaths.size();
     img.load(imagePaths[imageIndex]);
-    
+    vector<ofColor> cols;
     cols = f.getColorsFromImage(img);
+    
+    if(imageIndex % 120 == 0) {
+        // New day!
+        colorDay* d = new colorDay();
+        d->box = &box;
+        d->cols.push_back(cols);
+        d->imgPaths.push_back(imagePaths[imageIndex]);
+        colorDays.push_back(d);
+    } else {
+        colorDays[colorDays.size()-1]->cols.push_back(cols);
+        colorDays[colorDays.size()-1]->cols.push_back(cols);
+        colorDays[colorDays.size()-1]->imgPaths.push_back(imagePaths[imageIndex]);
+    }
+
 }
 
 //--------------------------------------------------------------
@@ -74,18 +99,17 @@ void ofApp::draw(){
     }
     
     buffer.begin();
-    if(imageIndex%120 == 0) {
-        ofClear(0);
-        colorPos.x = 0;
+    ofClear(0);
+    cam.begin();
+    float z = 0;
+    for(int i = 0; i < colorDays.size(); i++) {
+        colorDays[i]->draw(0, 0, z);
+        z += colorDays[i]->size;
     }
-    for(int i = 0; i < cols.size(); i++) {
-        ofSetColor(cols[i]);
-        ofDrawRectangle(colorPos.x, colorPos.y, ofGetWidth() / 120, 10);
-        colorPos.y += 10;
-    }
-
-    colorPos.y = 0;
-    colorPos.x += ofGetWidth() / 120;
+//    colorDay* today = colorDays[colorDays.size()-1];
+//    box.draw();
+    cam.end();
+//    colorDays[colorDays.size()-1]->draw(0, height);
     buffer.end();
     
     buffer.draw(0, height);
