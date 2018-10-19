@@ -32,18 +32,34 @@ bool compareString(string a, string b) {
     return yA < yB;
 }
 
+bool compareColorDay(colorDay* a, colorDay* b) {
+    int maxA = 0;
+    int maxB = 0;
+    for(int i = 0; i < a->cols.size(); i++) {
+        if(a->cols[i].size() > maxA) {
+            maxA = a->cols[i].size();
+        }
+    }
+    for(int i = 0; i < b->cols.size(); i++) {
+        if(b->cols[i].size() > maxB) {
+            maxB = b->cols[i].size();
+        }
+    }
+    return maxA < maxB;
+}
+
 //--------------------------------------------------------------
 void ofApp::setup(){    
     ofxNestedFileLoader loader;
     imagePaths = loader.load("images/SKWorkshopImages");
 
-    std::sort(imagePaths.begin(), imagePaths.end(), compareString);
+    sort(imagePaths.begin(), imagePaths.end(), compareString);
     
     img.load(imagePaths[0]);
     vector<ofColor> cols;
     cols = f.getColorsFromImage(img);
     colorDay* d = new colorDay();
-    d->box = &box;
+    currentDay = d;
     d->cols.push_back(cols);
     d->imgPaths.push_back(imagePaths[imageIndex]);
     colorDays.push_back(d);
@@ -56,35 +72,49 @@ void ofApp::setup(){
     showGui = false;
     
     box.set(10);
-    box.setPosition(0, 0, 0);
-    cam.lookAt(ofVec3f(0, 0, 0));
+    box.setPosition(112, 138, -192);
+    cam.lookAt(ofVec3f(0, -0.3, 1));
     
     buffer.allocate(ofGetWidth(), ofGetHeight());
+    
+    ofSetLineWidth(1);
+    
+    glPointSize(2);
+    
+    ofEnableAntiAliasing();
     
     ofEnableDepthTest();
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    imageIndex++;
-    imageIndex %= imagePaths.size();
-    img.load(imagePaths[imageIndex]);
-    vector<ofColor> cols;
-    cols = f.getColorsFromImage(img);
-    
-    if(imageIndex % 120 == 0) {
-        // New day!
-        colorDay* d = new colorDay();
-        d->box = &box;
-        d->cols.push_back(cols);
-        d->imgPaths.push_back(imagePaths[imageIndex]);
-        colorDays.push_back(d);
-    } else {
-        colorDays[colorDays.size()-1]->cols.push_back(cols);
-        colorDays[colorDays.size()-1]->cols.push_back(cols);
-        colorDays[colorDays.size()-1]->imgPaths.push_back(imagePaths[imageIndex]);
+    if(playing) {
+        imageIndex++;
+        if(imageIndex > imagePaths.size() - 1) {
+            playing  = false;
+            return;
+        }
+        imageIndex %= imagePaths.size();
+        img.load(imagePaths[imageIndex]);
+        vector<ofColor> cols;
+        cols = f.getColorsFromImage(img);
+        
+        if(imageIndex % 120 == 0) {
+            // New day!
+            colorDay* d = new colorDay();
+            d->addCols(cols);
+            d->imgPaths.push_back(imagePaths[imageIndex]);
+            currentDay = d;
+            colorDays.push_back(d);
+            sort(colorDays.begin(), colorDays.end(), compareColorDay);
+        } else {
+            currentDay->addCols(cols);
+            currentDay->imgPaths.push_back(imagePaths[imageIndex]);
+        }
+        for(int i = 0; i < colorDays.size(); i++) {
+            colorDays[i]->update();
+        }
     }
-
 }
 
 //--------------------------------------------------------------
@@ -104,12 +134,9 @@ void ofApp::draw(){
     float z = 0;
     for(int i = 0; i < colorDays.size(); i++) {
         colorDays[i]->draw(0, 0, z);
-        z += colorDays[i]->size;
+        z += 50;
     }
-//    colorDay* today = colorDays[colorDays.size()-1];
-//    box.draw();
     cam.end();
-//    colorDays[colorDays.size()-1]->draw(0, height);
     buffer.end();
     
     buffer.draw(0, height);
@@ -121,7 +148,7 @@ void ofApp::keyPressed(int key){
         showGui = !showGui;
     }
     if(key == ' ') {
-
+        playing = !playing;
     }
 }
 
