@@ -40,9 +40,7 @@ public:
     ofFbo buffer;
     
     ofVec2f colorPos;
-    
-    ofEasyCam cam;
-    
+
     bool playing = true;
 
     bool showGui;
