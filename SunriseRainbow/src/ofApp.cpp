@@ -32,7 +32,7 @@ bool compareString(string a, string b) {
     return yA < yB;
 }
 
-bool compareColorDay(colorDay* a, colorDay* b) {
+bool compareColorVariety(colorDay* a, colorDay* b) {
     int maxA = 0;
     int maxB = 0;
     for(int i = 0; i < a->cols.size(); i++) {
@@ -46,6 +46,10 @@ bool compareColorDay(colorDay* a, colorDay* b) {
         }
     }
     return maxA < maxB;
+}
+
+bool compareAverageHue(colorDay* a, colorDay* b) {
+    return a->averageColor.getHue() < b->averageColor.getHue();
 }
 
 //--------------------------------------------------------------
@@ -106,7 +110,7 @@ void ofApp::update(){
             d->addImage(imagePaths[imageIndex], 0.25);
             currentDay = d;
             colorDays.push_back(d);
-            sort(colorDays.begin(), colorDays.end(), compareColorDay);
+            sort(colorDays.begin(), colorDays.end(), compareAverageHue);
         } else {
             currentDay->addCols(cols);
             currentDay->addImage(imagePaths[imageIndex], 0.25);

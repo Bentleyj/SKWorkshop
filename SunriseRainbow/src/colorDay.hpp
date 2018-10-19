@@ -15,6 +15,7 @@ public:
     vector<vector<ofColor>> cols;
     vector<ofImage*> imgs;
     vector<string> imgPaths;
+    ofColor averageColor;
     int imgIndex = 0;
     ofImage img;
     ofMesh mesh;
@@ -28,7 +29,6 @@ public:
     }
     
     void addImage(string imgPath, float rescaleFactor);
-        
     void addCols(vector<ofColor> cols);
     void draw(float _x, float _y, float _z);
     void update();
