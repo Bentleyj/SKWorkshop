@@ -85,6 +85,8 @@ void ofApp::setup(){
     
     glPointSize(2);
     
+    glEnable(GL_POINT_SPRITE);
+    
     ofEnableAntiAliasing();
     
     ofEnableDepthTest();
