@@ -96,51 +96,43 @@ void ofApp::update(){
             playing  = false;
             return;
         }
-        imageIndex %= imagePaths.size();
         img.load(imagePaths[imageIndex]);
         vector<ofColor> cols;
         cols = f.getColorsFromImage(img);
-
-        colorDay* d = new colorDay();
-        d->addCols(cols);
-        d->addImage(imagePaths[imageIndex], 0.005);
-        currentDay = d;
-        colorDays.push_back(d);
-        sort(colorDays.begin(), colorDays.end(), compareAverageHue);
+        if(imageIndex % 120 == 0) {
+            colorDay* d = new colorDay();
+            d->addCols(cols);
+            d->addImage(imagePaths[imageIndex], 0.5);
+            currentDay = d;
+            colorDays.push_back(d);
+        } else {
+            currentDay->addCols(cols);
+            currentDay->addImage(imagePaths[imageIndex], 0.5);
+        }
+        currentDay->update();
     }
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
     ofSetColor(255);
-    float scale = ofGetWidth() / img.getWidth();
-    float height = 600 * scale;
-    img.draw(0, 0, ofGetWidth(), height);
+    float scale = ofGetWidth() / currentDay->img.getWidth();
+    float height = currentDay->img.getHeight() * scale;
+//    img.draw(0, 0, ofGetWidth(), height);
+    ofPushMatrix();
+    ofScale(scale, scale);
+    currentDay->draw(0, 0, 0);
+    ofPopMatrix();
 
     if(showGui) {
         gui.draw();
     }
     
-    buffer.begin();
-    ofClear(0);
-//    cam.begin();
-    float x = 0;
-    float y = 0;
-    float z = 0;
-    for(int i = 0; i < colorDays.size(); i++) {
-        if(colorDays[i]->imgs.size() > 0) {
-            colorDays[i]->draw(x, y, z);
-            x += colorDays[i]->imgs[0]->getWidth();
-            if(x > buffer.getWidth()) {
-                y += colorDays[i]->imgs[0]->getHeight();
-                x = 0;
-            }
-        }
-    }
-//    cam.end();
-    buffer.end();
+//    buffer.begin();
+//    ofClear(0);
+//    buffer.end();
     
-    buffer.draw(0, height);
+//    buffer.draw(0, height);
 }
 
 //--------------------------------------------------------------

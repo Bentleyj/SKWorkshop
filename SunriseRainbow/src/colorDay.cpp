@@ -45,6 +45,29 @@ void colorDay::addImage(string imgPath, float rescaleFactor) {
     newImg->load(imgPath);
     newImg->resize(newImg->getWidth() * rescaleFactor, newImg->getHeight() * rescaleFactor);
     imgs.push_back(newImg);
+    if(imgs.size() == 1) {
+        img = *(imgs[0]);
+    } else {
+        for(int x = 0; x < newImg->getWidth(); x++) {
+            for(int y = 0; y < newImg->getHeight(); y++) {
+                ofColor c1 = newImg->getColor(x, y);
+                ofColor c2 = img.getColor(x, y);
+                float r1 = float(c1.r);
+                float g1 = float(c1.g);
+                float b1 = float(c1.b);
+                float r2 = float(c2.r);
+                float g2 = float(c2.g);
+                float b2 = float(c2.b);
+                
+                r1 = (r1 + r2 * (imgs.size() - 1)) / imgs.size();
+                g1 = (g1 + g2 * (imgs.size() - 1)) / imgs.size();
+                b1 = (b1 + b2 * (imgs.size() - 1)) / imgs.size();
+
+                img.setColor(x, y, ofColor(r1, g1, b1));
+            }
+        }
+        img.update();
+    }
 }
 
 void colorDay::update() {
@@ -62,12 +85,7 @@ void colorDay::draw(float _x, float _y, float _z) {
     ofSetColor(255);
     if(imgs.size() > 0) {
         imgs[imgIndex]->draw(0, 0);
-        ofSetColor(averageColor);
-//        ofDrawRectangle(-50, 0, 50, imgs[imgIndex]->getHeight());
-//        ofTranslate(0, imgs[imgIndex]->getHeight());
+        img.draw(0, imgs[imgIndex]->getHeight());
     }
-
-//    ofSetColor(255);
-//    mesh.draw();
     ofPopMatrix();
 }
