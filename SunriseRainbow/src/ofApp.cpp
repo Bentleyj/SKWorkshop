@@ -105,18 +105,18 @@ void ofApp::update(){
         vector<ofColor> cols;
         cols = f.getColorsFromImage(img);
         
-        if(imageIndex % 120 == 0) {
-            // New day!
-            colorDay* d = new colorDay();
-            d->addCols(cols);
-            d->addImage(imagePaths[imageIndex], 0.25);
-            currentDay = d;
-            colorDays.push_back(d);
-            sort(colorDays.begin(), colorDays.end(), compareAverageHue);
-        } else {
-            currentDay->addCols(cols);
-            currentDay->addImage(imagePaths[imageIndex], 0.25);
-        }
+//        if(imageIndex % 120 == 0) {
+        // New day!
+        colorDay* d = new colorDay();
+        d->addCols(cols);
+        d->addImage(imagePaths[imageIndex], 0.01);
+        currentDay = d;
+        colorDays.push_back(d);
+        sort(colorDays.begin(), colorDays.end(), compareAverageHue);
+//        } else {
+//            currentDay->addCols(cols);
+//            currentDay->addImage(imagePaths[imageIndex], 0.25);
+//        }
     }
     for(int i = 0; i < colorDays.size(); i++) {
         colorDays[i]->update();
@@ -136,13 +136,21 @@ void ofApp::draw(){
     
     buffer.begin();
     ofClear(0);
-    cam.begin();
+//    cam.begin();
+    float x = 0;
+    float y = 0;
     float z = 0;
     for(int i = 0; i < colorDays.size(); i++) {
-        colorDays[i]->draw(0, 0, z);
-        z += 50;
+        if(colorDays[i]->imgs.size() > 0) {
+            colorDays[i]->draw(x, y, z);
+            x += colorDays[i]->imgs[0]->getWidth();
+            if(x > buffer.getWidth()) {
+                y += colorDays[i]->imgs[0]->getHeight();
+                x = 0;
+            }
+        }
     }
-    cam.end();
+//    cam.end();
     buffer.end();
     
     buffer.draw(0, height);

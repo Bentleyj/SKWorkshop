@@ -53,9 +53,9 @@ vector<ofColor> spectrumFinder::getColorsFromImage(ofImage img) {
     
     vector<ofColor> cols;
     for(int i = colorBins.size()/2; i < colorBins.size(); i++) {
-        if(colorBins[i].first.getBrightness() > 127) {
+//        if(colorBins[i].first.getBrightness() > 127) {
             cols.push_back(colorBins[i].first);
-        }
+//        }
     }
     
     return cols;

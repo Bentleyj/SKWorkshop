@@ -62,11 +62,12 @@ void colorDay::draw(float _x, float _y, float _z) {
     ofSetColor(255);
     if(imgs.size() > 0) {
         imgs[imgIndex]->draw(0, 0);
+        ofSetColor(averageColor);
+//        ofDrawRectangle(-50, 0, 50, imgs[imgIndex]->getHeight());
+//        ofTranslate(0, imgs[imgIndex]->getHeight());
     }
-    ofSetColor(averageColor);
-    ofDrawRectangle(-50, 0, 50, imgs[imgIndex]->getHeight());
-    ofTranslate(0, imgs[imgIndex]->getHeight());
-    ofSetColor(255);
-    mesh.draw();
+
+//    ofSetColor(255);
+//    mesh.draw();
     ofPopMatrix();
 }
