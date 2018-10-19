@@ -13,6 +13,7 @@
 class colorDay {
 public:
     vector<vector<ofColor>> cols;
+    vector<ofImage*> imgs;
     vector<string> imgPaths;
     int imgIndex = 0;
     ofImage img;
@@ -23,8 +24,11 @@ public:
     
     colorDay() {
         mesh.setMode(OF_PRIMITIVE_POINTS);
+        imgs.resize(0);
     }
     
+    void addImage(string imgPath, float rescaleFactor);
+        
     void addCols(vector<ofColor> cols);
     void draw(float _x, float _y, float _z);
     void update();

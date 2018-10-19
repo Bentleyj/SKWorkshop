@@ -18,16 +18,29 @@ void colorDay::addCols(vector<ofColor> _cols) {
     x += size;
 }
 
+void colorDay::addImage(string imgPath, float rescaleFactor) {
+    imgPaths.push_back(imgPath);
+    ofImage* newImg = new ofImage();
+    newImg->load(imgPath);
+    newImg->resize(newImg->getWidth() * rescaleFactor, newImg->getHeight() * rescaleFactor);
+    imgs.push_back(newImg);
+}
+
 void colorDay::update() {
     imgIndex++;
-    imgIndex %= imgPaths.size();
-    img.load(imgPaths[imgIndex]);
+    if(imgs.size() > 0)
+        imgIndex %= imgs.size();
+    else {
+        imgIndex = 0;
+    }
 }
 
 void colorDay::draw(float _x, float _y, float _z) {
     ofPushMatrix();
     ofTranslate(_x, _y, _z);
-    img.draw(0, 0);
+    if(imgs.size() > 0) {
+        imgs[imgIndex]->draw(0, 0);
+    }
     //mesh.draw();
     ofPopMatrix();
 }

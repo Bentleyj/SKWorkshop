@@ -103,17 +103,17 @@ void ofApp::update(){
             // New day!
             colorDay* d = new colorDay();
             d->addCols(cols);
-            d->imgPaths.push_back(imagePaths[imageIndex]);
+            d->addImage(imagePaths[imageIndex], 0.25);
             currentDay = d;
             colorDays.push_back(d);
             sort(colorDays.begin(), colorDays.end(), compareColorDay);
         } else {
             currentDay->addCols(cols);
-            currentDay->imgPaths.push_back(imagePaths[imageIndex]);
+            currentDay->addImage(imagePaths[imageIndex], 0.25);
         }
-        for(int i = 0; i < colorDays.size(); i++) {
-            colorDays[i]->update();
-        }
+    }
+    for(int i = 0; i < colorDays.size(); i++) {
+        colorDays[i]->update();
     }
 }
 
