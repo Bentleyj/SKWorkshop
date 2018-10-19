@@ -52,10 +52,10 @@ vector<ofColor> spectrumFinder::getColorsFromImage(ofImage img) {
     std::sort(colorBins.begin(), colorBins.end(), compareSat);
     
     vector<ofColor> cols;
-    for(int i = 0; i < colorBins.size(); i++) {
-//        if(colorBins[i].first.getSaturation() > 127) {
-        cols.push_back(colorBins[i].first);
-//        }
+    for(int i = colorBins.size()/2; i < colorBins.size(); i++) {
+        if(colorBins[i].first.getBrightness() > 127) {
+            cols.push_back(colorBins[i].first);
+        }
     }
     
     return cols;

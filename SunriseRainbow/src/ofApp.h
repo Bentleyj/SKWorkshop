@@ -4,6 +4,7 @@
 #include "ofxGui.h"
 #include "spectrumFinder.hpp"
 #include "ofxNestedFileLoader.h"
+#include "colorDay.hpp"
 
 class ofApp : public ofBaseApp{
 public:
@@ -23,7 +24,8 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
 
-    vector<ofColor> cols;
+    vector<colorDay*> colorDays;
+    colorDay* currentDay;
 
     ofImage img;
     
@@ -33,9 +35,15 @@ public:
     
     vector<string> imagePaths;
     
+    ofBoxPrimitive box;
+    
     ofFbo buffer;
     
     ofVec2f colorPos;
+    
+    ofEasyCam cam;
+    
+    bool playing = true;
 
     bool showGui;
     int imageIndex;
