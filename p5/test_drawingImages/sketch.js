@@ -13,6 +13,12 @@ function setup() {
 function draw() {
   // put drawing code here
   for(var i = 0; i < 100; i++) {
-  	  image(img, i*10, i * 10, 3840/4, 600/4);
+  	push();
+  	translate(50, 3840/4/2);
+  	translate(3840/4/2, 600/4/2);
+  	rotate(PI/10 * i);
+	translate(-3840/4/2, -600/4/2);
+	image(img, 0, 0, 3840/4, 600/4);
+	pop();
   }
 }
