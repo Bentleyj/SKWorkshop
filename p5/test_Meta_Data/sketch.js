@@ -23,8 +23,9 @@ function draw() {
   // put drawing code here
   var x = 0;
   var y = 0;
-  for(var i = imgs.length-1; i > 0; i--) {
+  for(var i = 0; i < imgs.length; i++) {
     push();
+      scale(map(i, 0, imgs.length, 1, 0));
   	  image(imgs[i], 0, i * 20, imgs[i].width, imgs[i].height);
   	pop();
   }
