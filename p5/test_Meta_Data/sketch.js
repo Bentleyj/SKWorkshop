@@ -27,10 +27,10 @@ function draw() {
   step += 0.01;
   for(var i = 0; i < imgs.length; i++) {
     push();
-      // translate(imgs[i].width/2, imgs[i].height/2)
-      translate(mouseX, mouseY);
+      translate(canvas.width/2, canvas.height/2)
+      // translate(mouseX, mouseY);
+      scale(map(i, 0, imgs.length, 2, 0));
       translate(-imgs[i].width/2, -imgs[i].height/2)
-      // scale(map(20*cos(PI/20 * i + step), 0, imgs.length, 1, 0));
   	  image(imgs[i], 0, 0, imgs[i].width, imgs[i].height);
   	pop();
   }
@@ -42,9 +42,9 @@ function loadNewImage(imgName) {
       if(newImg != null) {
         imgs.push(newImg);
       }
-      // if(imgs.length > 90) {
-      //   imgs.shift();
-      // }
+      if(imgs.length > 90) {
+        imgs.shift();
+      }
       imgName = getNextImgName(imgName);
       if(imgName != null) {
         loadNewImage(ImagesFilePath + imgName);
