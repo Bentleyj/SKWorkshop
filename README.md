@@ -10,7 +10,23 @@ Firstly we need to open the terminal application on our computer which you can f
 
 ## Initial setup
 
-To use this project we need to do a little bit of setup. Firstly we need to install node.js which is a javascript library which is extremely powerful. We won't be using it for this project directly but we will be using utilities that it provides.
+To use this project we need to do a little bit of setup. Firstly we need to install node.js which is a javascript library which is extremely powerful. We won't be using it for this project directly but we will be using utilities that it provides. You can find instructions on how to install it [here](https://nodejs.org/en/).
+
+Once that's installed you can use npm which is another command whcih stands for "Node Package Manager" to install another command line tool called http-server.
+
+This let's us run an http server locally which basically means we can view a local website!
+
+To do this you need to type:
+
+`npm install http-server -g`
+
+The -g means you're installing it globally so you can use it within any folder. Once that's done you can navigate to your p5 folder and type:
+
+`http-server -c-1`
+
+This will start an http server within your p5 folder with the local port 8080. to view it open any web browser (chrome is a good one) and go to the url: `http://localhost:8080/`. You'll notice that this terminal now is filled with messages. You'll need a new Terminal window to run more command line commands because this one is now busy running the server.
+
+This will show you the contents of your folders within the p5 folder. You can click on any of the individual folders to see your p5 sketches.
 
 ## Folders
 
@@ -44,16 +60,22 @@ It holds all of our npm modules to run node commands. We won't ever need to use 
 
 This is out project file. Inside is a full installation of p5.js which you can also get from [here](https://p5js.org/download/). Within this project there are several example projects labelled with the prefix test_XXXXXXX. there are three other folders which are used by p5.js: addons, libs and shared. You can ignore these. Finally to get any examples that load images to work you will need to create a folder titled assets if one is not already there within the p5 folder. Inside assets you need to unzip the SKWorkshopImages folder so the folder structure looks like p5>assets>SKWorkshopImages>[lots of images].
 
-In order to run the projects you need to have installed http-server as described above. navigate to the p5 folder in the command line and
-
-### P5 project
-
-This is a fun project file, we'll be using p5.js to draw out images and play around with them.
-
-To launch this locally we want to follow the instructions [here](https://p5js.org/get-started/) for getting started with p5.js and [here](https://github.com/processing/p5.js/wiki/Local-server) for setting up a local server which we'll need to load our files. We;re going to use Sublime Text 3 as our IDE which you can download from [here](https://www.sublimetext.com/).
-
-Some notes on getting setup, we're going to use the Node option to set everything up because we'll be installing node.js anyway. Don't forget to install http-server globally and make sure to run it with the flags:
+In order to run the projects you need to have installed http-server as described above. navigate to the p5 folder in the command line and type:
 
 `http-server -c-1`
 
-And make sure you run it **IN THE P5.JS FOLDER** not in your example folder.
+Make sure you run it **IN THE P5 FOLDER** not in your example folder.
+
+This starts the http server and allows you to view your sketches. Just click on the folder in the window that you want to view and you can see your awesome work! If you have any troubles you cna try this [guide](https://github.com/processing/p5.js/wiki/Local-server) written by the people who made p5.js. We're using option 2 but the other options should work just as well. They have a full guide for setting up p5.js [here](https://p5js.org/get-started/)
+
+We're going to use Sublime Text 3 as our IDE which you can download from [here](https://www.sublimetext.com/).
+
+### SunriseRainbow
+
+This is a project written in C++ using openFrameworks. We aren't going to use it for the first lesson but may jump in to it for the second lecture. If you're interested in giving it a whirl you can check out openFrameworks [here](https://openframeworks.cc/download/) This was built with version 0.9.8 but should work with 0.10.0.
+
+### utils
+
+This folder includes utility files written in Javascript which I used to sort and classify my image files before the course. I have left them in so you can read them and have a look at the structure of a standard node.js file if you're interested, however they are advanced and now that I've used them we don't need to use them anymore!
+
+
