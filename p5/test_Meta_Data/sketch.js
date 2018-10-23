@@ -2,11 +2,12 @@ var imgs = [];
 var ImagesFilePath;
 var currentImageName;
 var step = 0;
+var origin;
 
 function preload() {
   var imgYear = 2018;
-  var imgMonth = 2;
-  var imgDate = 24;
+  var imgMonth = 5;
+  var imgDate = 1;
   var imgIndex = 0;
   ImagesFilePath = '../../assets/SKWorkshopImages/';
   currentImageName = ImagesFilePath + createImageString(imgYear, imgMonth, imgDate, imgIndex);
@@ -17,21 +18,33 @@ function setup() {
   // put setup code here
   createCanvas(1920, 1080);
     loadNewImage(currentImageName);
+    background(127);
+    origin = {x: windowWidth/2, y:  windowHeight/2};
 
 }
 
 function draw() {
+  clear();
   // put drawing code here
   var x = 0;
   var y = 0;
   step += 0.01;
+
+  origin.x = lerp(origin.x, mouseX, 0.01);
+  origin.y = lerp(origin.y, mouseY, 0.01);
   for(var i = 0; i < imgs.length; i++) {
     push();
       var amount = map(i, 0, imgs.length, 0, 1);
-      translate(canvas.width/2 * (1.0 - amount), canvas.height/2 * (1.0 - amount));
+      translate(origin.x * (1.0 - amount), origin.y * (1.0 - amount));
       translate(mouseX * amount, mouseY * amount);
-      scale(map(i, 0, imgs.length, 2, 0));
+      if(i < imgs.length / 2) {
+          scale(map(i, 0, imgs.length/2, 0, 1));
+      } else {
+          scale(map(i, imgs.length/2, imgs.length, 1, 0));
+
+      }
       translate(-imgs[i].width/2, -imgs[i].height/2)
+      rotate(i*PI/300 * cos(step) * step/2);
   	  image(imgs[i], 0, 0, imgs[i].width, imgs[i].height);
   	pop();
   }
