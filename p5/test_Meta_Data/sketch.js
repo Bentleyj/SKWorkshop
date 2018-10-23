@@ -27,8 +27,9 @@ function draw() {
   step += 0.01;
   for(var i = 0; i < imgs.length; i++) {
     push();
-      translate(canvas.width/2, canvas.height/2)
-      // translate(mouseX, mouseY);
+      var amount = map(i, 0, imgs.length, 0, 1);
+      translate(canvas.width/2 * (1.0 - amount), canvas.height/2 * (1.0 - amount));
+      translate(mouseX * amount, mouseY * amount);
       scale(map(i, 0, imgs.length, 2, 0));
       translate(-imgs[i].width/2, -imgs[i].height/2)
   	  image(imgs[i], 0, 0, imgs[i].width, imgs[i].height);
