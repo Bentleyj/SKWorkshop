@@ -9,13 +9,13 @@ function preload() {
   var imgIndex = 0;
   ImagesFilePath = '../../assets/SKWorkshopImages/';
   currentImageName = ImagesFilePath + createImageString(imgYear, imgMonth, imgDate, imgIndex);
-  loadNewImage(currentImageName);
 
 }
 
 function setup() {
   // put setup code here
   createCanvas(1920, 1080);
+    loadNewImage(currentImageName);
 
 }
 
@@ -36,9 +36,9 @@ function loadNewImage(imgName) {
       if(newImg != null) {
         imgs.push(newImg);
       }
-      // if(imgs.length > 120) {
-      //   imgs.shift();
-      // }
+      if(imgs.length > 90) {
+        imgs.shift();
+      }
       imgName = getNextImgName(imgName);
       if(imgName != null) {
         loadNewImage(ImagesFilePath + imgName);
@@ -57,7 +57,6 @@ function getNextImgName(imgName) {
   if(imgDate.index > 119) {
     imgDate.index = 0;
     imgDate.date++;
-    return null;
   }
   if(imgDate.date > 31) {
     imgDate.index = 0;
