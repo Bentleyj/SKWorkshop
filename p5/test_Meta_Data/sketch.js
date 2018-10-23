@@ -1,6 +1,7 @@
 var imgs = [];
 var ImagesFilePath;
 var currentImageName;
+var step = 0;
 
 function preload() {
   var imgYear = 2018;
@@ -23,10 +24,14 @@ function draw() {
   // put drawing code here
   var x = 0;
   var y = 0;
+  step += 0.01;
   for(var i = 0; i < imgs.length; i++) {
     push();
-      scale(map(i, 0, imgs.length, 1, 0));
-  	  image(imgs[i], 0, i * 20, imgs[i].width, imgs[i].height);
+      // translate(imgs[i].width/2, imgs[i].height/2)
+      translate(mouseX, mouseY);
+      translate(-imgs[i].width/2, -imgs[i].height/2)
+      // scale(map(20*cos(PI/20 * i + step), 0, imgs.length, 1, 0));
+  	  image(imgs[i], 0, 0, imgs[i].width, imgs[i].height);
   	pop();
   }
 }
@@ -37,9 +42,9 @@ function loadNewImage(imgName) {
       if(newImg != null) {
         imgs.push(newImg);
       }
-      if(imgs.length > 90) {
-        imgs.shift();
-      }
+      // if(imgs.length > 90) {
+      //   imgs.shift();
+      // }
       imgName = getNextImgName(imgName);
       if(imgName != null) {
         loadNewImage(ImagesFilePath + imgName);
