@@ -24,7 +24,7 @@ function setup() {
 }
 
 function draw() {
-  clear();
+  // clear();
   // put drawing code here
   var x = 0;
   var y = 0;
@@ -37,9 +37,10 @@ function draw() {
       var amount = map(i, 0, imgs.length, 0, 1);
       translate(origin.x * (1.0 - amount), origin.y * (1.0 - amount));
       translate(mouseX * amount, mouseY * amount);
-      scale(map(i, 0, imgs.length/2, 0, 1));
-      translate(-imgs[i].width/2, -imgs[i].height/2)
+      scale(map(i, 0, imgs.length, 2, 0));
+      translate(imgs[i].width/2, imgs[i].height/2)
       rotate(i*PI/100);
+      translate(-imgs[i].width/2, -imgs[i].height/2)
   	  image(imgs[i], 0, 0, imgs[i].width, imgs[i].height);
   	pop();
   }
