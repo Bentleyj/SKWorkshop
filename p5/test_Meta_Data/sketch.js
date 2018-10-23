@@ -23,9 +23,9 @@ function draw() {
   // put drawing code here
   var x = 0;
   var y = 0;
-  for(var i = 0; i < imgs.length; i++) {
+  for(var i = imgs.length-1; i > 0; i--) {
     push();
-  	  image(imgs[i], 0, i * 10, imgs[i].width, imgs[i].height);
+  	  image(imgs[i], 0, i * 20, imgs[i].width, imgs[i].height);
   	pop();
   }
 }
