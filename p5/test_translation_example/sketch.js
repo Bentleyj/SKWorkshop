@@ -25,13 +25,13 @@ function setup() {
 
 function draw() {
   // clear();
-  // put drawing code here
-  // drawScale();
+  // You can use any of these functions to draw different effects. Pick one or mix them up. 
+  // If you use more than one note the performance loss you'll experience!
+  drawScale();
   // drawSlightTwist();
   // drawSpiral();
   // drawSlideDown();
   // drawSlideUp();
-  drawPyramind();
 
 }
 
