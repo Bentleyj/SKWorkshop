@@ -16,17 +16,27 @@ function preload() {
 
 function setup() {
   // put setup code here
-  createCanvas(1920, 1080);
+    createCanvas(1080, 1080);
     loadNewImage(currentImageName);
     background(127);
-    origin = {x: windowWidth/2, y:  windowHeight/2};
+    origin = {x: windowWidth/4, y:  windowHeight/2};
 
 }
 
 function draw() {
   // clear();
-  // put drawing code here
-  var x = 0;
+  // You can use any of these functions to draw different effects. Pick one or mix them up. 
+  // If you use more than one note the performance loss you'll experience!
+  drawScale();
+  // drawSlightTwist();
+  // drawSpiral();
+  // drawSlideDown();
+  // drawSlideUp();
+
+}
+
+function drawSlightTwist() {
+    var x = 0;
   var y = 0;
   step += 0.01;
 
@@ -41,14 +51,82 @@ function draw() {
       translate(imgs[i].width/2, imgs[i].height/2)
       rotate(i*PI/100);
       translate(-imgs[i].width/2, -imgs[i].height/2)
-  	  image(imgs[i], 0, 0, imgs[i].width, imgs[i].height);
-  	pop();
+      image(imgs[i], 0, 0, imgs[i].width, imgs[i].height);
+    pop();
+  }
+}
+
+function drawSpiral() {
+    var x = 0;
+  var y = 0;
+  step += 0.01;
+
+  // origin.x = lerp(origin.x, mouseX, 0.01);
+  // origin.y = lerp(origin.y, mouseY, 0.01);
+  for(var i = 0; i < imgs.length; i++) {
+    push();
+      var amount = map(i, 0, imgs.length, 0, 1);
+      translate(origin.x * (1.0 - amount), origin.y * (1.0 - amount));
+      translate(mouseX * amount, mouseY * amount);
+      scale(map(i, 0, imgs.length, 2, 0));
+      translate(imgs[i].width/2, imgs[i].height/2)
+      rotate(i*PI/20);
+      translate(-imgs[i].width/2, -imgs[i].height/2)
+      image(imgs[i], 0, 0, imgs[i].width, imgs[i].height);
+    pop();
+  }
+}
+
+function drawSlideDown() {
+    var x = 0;
+  var y = 0;
+  step += 0.01;
+
+  // origin.x = lerp(origin.x, mouseX, 0.01);
+  // origin.y = lerp(origin.y, mouseY, 0.01);
+  for(var i = 0; i < imgs.length; i++) {
+    push();
+      translate(0, i*10);
+      image(imgs[i], 0, 0, imgs[i].width, imgs[i].height);
+    pop();
+  }
+}
+
+function drawSlideUp() {
+  var x = 0;
+  var y = 0;
+  step += 0.01;
+
+  // origin.x = lerp(origin.x, mouseX, 0.01);
+  // origin.y = lerp(origin.y, mouseY, 0.01);
+  for(var i = imgs.length-1; i > 0; i--) {
+    push();
+      translate(0, i*10);
+      image(imgs[i], 0, 0, imgs[i].width, imgs[i].height);
+    pop();
+  }
+}
+
+function drawScale() {
+    var x = 0;
+  var y = 0;
+  step += 0.01;
+
+  // origin.x = lerp(origin.x, mouseX, 0.01);
+  // origin.y = lerp(origin.y, mouseY, 0.01);
+  for(var i = 0; i < imgs.length; i++) {
+    push();
+      translate(imgs[i].width/2, imgs[i].height/2);
+      scale(map(i, 0, imgs.length-1, 1, 0));
+      translate(-imgs[i].width/2, -imgs[i].height/2);
+      image(imgs[i], 0, 0, imgs[i].width, imgs[i].height);
+    pop();
   }
 }
 
 function loadNewImage(imgName) {
   loadImage(imgName, function(newImg) {
-      newImg.resize(newImg.width/8, newImg.height/8);
+      newImg.resize(newImg.width/4, newImg.height/4);
       if(newImg != null) {
         imgs.push(newImg);
       }
